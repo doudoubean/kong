@@ -137,6 +137,10 @@ local function connect(config)
   connection.convert_null = true
   connection.NULL         = null
 
+  if config.timeout then
+    connection:settimeout(config.timeout)
+  end
+
   local ok, err = connection:connect()
   if not ok then
     return nil, err
@@ -753,6 +757,7 @@ function _M.new(kong_config)
   local config = {
     host       = kong_config.pg_host,
     port       = kong_config.pg_port,
+    timeout    = kong_config.pg_timeout,
     user       = kong_config.pg_user,
     password   = kong_config.pg_password,
     database   = kong_config.pg_database,
