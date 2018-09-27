@@ -1788,17 +1788,11 @@ describe("Router", function()
                 paths      = { args[2] },
               },
               headers   = {
-                host    = { "test" .. i .. ".domain.org" },
+                -- only add the header is no path is provided
+                host    = args[2] == nil and nil or { "test" .. i .. ".domain.org" },
               },
             }
           }
-
-          -- strip out the element we do not need
-          if args[2] then
-            use_case_routes.headers = nil
-          else
-            use_case_routes.route = nil
-          end
 
           local router = assert(Router.new(use_case_routes) )
 
